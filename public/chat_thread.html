@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>掲示板</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="styles.css">
+        <script src="script.js" defer></script>
+    </head>
+<body>
+    <nav class="navbar" id="nav">
+    </nav>
+    <div>
+        <div class="content tbg">
+            <h1 id="threadTitle"></h1>
+            <div id="posts"></div>
+            <form id="postForm">
+                <input type="text" id="name" placeholder="名前">
+                <textarea id="message" placeholder="メッセージ"></textarea>
+                <button type="submit">投稿</button>
+            </form>
+        </div>
+    </div>
+    <script src="/chat_thread.js"></script>
+</body>
+</html>

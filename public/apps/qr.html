@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <base href="/">
+    <title>OmotiGo - </title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <nav class="navbar" id="nav">
+    </nav>
+    
+    <div>
+        <div class="content tbg">
+
+            <h2>QR Gen</h2>
+            <label for="text">テキストまたはURLを入力:</label>
+            <input type="text" id="text" placeholder="テキストまたはURLを入力してください" style="width: 300px;">
+            
+            <br><br>
+
+            <div><canvas id="qr"></canvas></div>
+            <button onclick="generateQRCode()">QRコード生成</button>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script>
+    function generateQRCode() {
+        var text = document.getElementById('text').value;
+        var qr = new QRious({
+            element: document.getElementById('qr'),
+            size: 250,
+            value: text
+        });
+    }
+    </script>
+</body>
+</html>

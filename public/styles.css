@@ -1,0 +1,156 @@
+body {
+    font-family: 'Roboto', sans-serif; /* Googleのデフォルトフォント */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* 縦方向の配置 */
+    align-items: center; /* 中央揃え */
+    height: 100vh;
+    background: #EEEEEE; /* 軽いグレーの背景 */
+    padding-bottom: 20px
+}
+
+.wbg, .tbg {
+    width: 1020px; /* 各ブロックの固定幅 */
+    margin-top: 50px; /* 上の余白 */
+    background: rgba(255, 255, 255, 0.95); /* 軽い透明感 */
+    border: 1px solid #E0E0E0; /* 枠の色 */
+    border-radius: 15px; /* 角丸を大きく設定 */
+    padding: 30px; /* 内側の余白を増やす */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15); /* 強い影の効果 */
+    text-align: center; /* テキストを中央揃えに */
+    box-sizing: border-box; /* ボックスサイズの計算方法を変更 */
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px; /* 左右の余白を50pxに設定 */
+    width: 100%;
+    max-width: 1200px; /* コンテナの最大幅を制限 */
+    margin: auto; /* 中央寄せ */
+    box-sizing: border-box; /* ボックスサイズの計算方法を変更 */
+}
+
+.notice-block {
+    background-color: #f9f9f9;  /* 軽い背景色 */
+    border: 1px solid #ccc;  /* 枠線 */
+    border-radius: 10px;  /* 角丸 */
+    padding: 20px;  /* 内側のパディング */
+    margin-bottom: 20px;  /* 下のマージン */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);  /* 軽い影 */
+    box-sizing: border-box; /* ボックスサイズの計算方法を変更 */
+}
+
+.bg-red {
+    background-color: rgb(185, 8, 8)!important;
+}
+.bg-red:hover{
+    background-color: rgb(92, 5, 5)!important;
+}
+.bg-orange {
+    background-color: rgb(213, 132, 2)!important;
+}
+.bg-orange:hover {
+    background-color: rgb(94, 58, 0)!important;
+}
+.bg-blue {
+    background-color: rgb(8, 73, 185)!important;
+}
+.bg-blue:hover {
+    background-color: rgb(0, 61, 118)!important;
+}
+.bg-yellow {
+    background-color: rgb(185, 167, 8)!important;
+}
+.bg-yellow:hover {
+    background-color: rgb(135, 135, 0)!important;
+}
+.bg-green {
+    background-color: rgb(0, 157, 0)!important;
+}
+.bg-green:hover {
+    background-color: rgb(4, 111, 0)!important;
+}
+button {
+    background-color: #838383; /* Googleのボタン色 */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px; /* ボタンの角丸 */
+    cursor: pointer;
+    outline: none;
+}
+.sp {
+    margin-top:40px;
+}
+button:hover {
+    background-color: #343434; /* ホバー時の色変更 */
+}
+
+h1, h2, h3, p {
+    color: #202124; /* Googleのテキスト色 */
+}
+
+h1 {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+}
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+}
+
+h3 {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background: #EEEEEE;
+}
+
+.navbar {
+    width: 100%;
+    background: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    margin: 20px 0; /* 上下の余白を追加 */
+}
+
+
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1a73e8; /* ロゴの色をGoogleのテーマ色に */
+}
+
+.nav-links a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #1a73e8;
+    font-size: 16px;
+    padding: 8px 16px; /* リンクのパディングを追加 */
+    border-radius: 4px; /* 角丸の追加 */
+    transition: background-color 0.3s; /* 背景色の変化にアニメーションを設定 */
+}
+
+.nav-links a:hover {
+    background-color: #E1F5FE; /* ホバー時の背景色 */
+    text-decoration: none; /* ホバー時に下線を非表示 */
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <title>OmotiGo - HyperSuperEncrypt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <nav class="navbar" id="nav">
+    </nav>
+    <div class="wbg">
+        <h2>HyperSuperEncrypt</h2>
+        <textarea id="inputText" placeholder="ここにテキストを入力してください"></textarea>
+        <br>
+        <input type="text" id="keyword" placeholder="キーワードを入力" value="key">
+        <br>
+        <button onclick="encrypt()">暗号化</button>
+        <br>
+        <button onclick="decrypt()">復号化</button>
+        <h3>結果:</h3>
+        <p id="result"></p>
+    </div>
+    <script>
+// script.js
+function applyUniversalVigenere(text, keyword, mode) {
+    const keyLength = keyword.length;
+    let result = "";
+    let keyIndex = 0;
+
+    for (let i = 0; i < text.length; i++) {
+        const char = text.charAt(i);
+        const keyChar = keyword.charAt(keyIndex % keyLength);
+        const textCharCode = char.charCodeAt(0);
+        const keyCharCode = keyChar.charCodeAt(0);
+
+        if (mode) {  // 暗号化モード
+            result += String.fromCharCode((textCharCode + keyCharCode) % 65536);
+        } else {  // 復号化モード
+            let newCode = textCharCode - keyCharCode;
+            if (newCode < 0) {
+                newCode += 65536;  // Unicodeの範囲内でループさせる
+            }
+            result += String.fromCharCode(newCode);
+        }
+        keyIndex++;  // キーワードの次の文字に進む
+    }
+    return result;
+}
+
+function encrypt() {
+    const text = document.getElementById('inputText').value;
+    const keyword = document.getElementById('keyword').value;
+    if (keyword.length === 0) {
+        alert("キーワードを入力してください。");
+        return;
+    }
+    const encryptedText = applyUniversalVigenere(text, keyword, true);
+    document.getElementById('result').innerText = encryptedText;
+}
+
+function decrypt() {
+    const text = document.getElementById('inputText').value;
+    const keyword = document.getElementById('keyword').value;
+    if (keyword.length === 0) {
+        alert("キーワードを入力してください。");
+        return;
+    }
+    const decryptedText = applyUniversalVigenere(text, keyword, false);
+    document.getElementById('result').innerText = decryptedText;
+}
+
+    </script>
+</body>
+</html>

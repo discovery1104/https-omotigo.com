@@ -1,0 +1,14 @@
+services:
+  - name: express-chat
+    type: web
+    env: node
+    region: oregon  # 日本リージョンがないのでUS（最速リージョン）
+    plan: free
+    buildCommand: "npm install"
+    startCommand: "node server.js"
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000

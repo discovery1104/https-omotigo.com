@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>OmotiGo - ColorEditor</title>
+    <base href="/">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="noticescript.js" defer></script>
+    <script src="script.js" defer></script>
+    <style>        .color-display {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            border: none;
+            margin-top: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }</style>
+</head>
+<body>
+    <nav class="navbar" id="nav">
+    </nav>
+    <div class="content wbg">
+    <h2>ColorEditor</h2>
+    <select id="mode" onchange="changeMode()">
+        <option value="rgb">RGB</option>
+        <option value="hsv">HSV</option>
+    </select>
+
+    <!-- RGB Controls -->
+    <div id="rgb-controls">
+        <div>
+            <label for="r">R: <span id="r_val">255</span></label>
+            <input type="range" id="r" min="0" max="255" value="255" oninput="updateFromRGB()">
+        </div>
+        <div>
+            <label for="g">G: <span id="g_val">150</span></label>
+            <input type="range" id="g" min="0" max="255" value="150" oninput="updateFromRGB()">
+        </div>
+        <div>
+            <label for="b">B: <span id="b_val">100</span></label>
+            <input type="range" id="b" min="0" max="255" value="100" oninput="updateFromRGB()">
+        </div>
+    </div>
+
+    <!-- HSL Controls -->
+    <div id="hsl-controls" style="display:none;">
+        <div>
+            <label for="h">H: <span id="h_val">0</span>°</label>
+            <input type="range" id="h" min="0" max="360" value="0" oninput="updateFromHSL()">
+        </div>
+        <div>
+            <label for="s">S: <span id="s_val">100</span>%</label>
+            <input type="range" id="s" min="0" max="100" value="100" oninput="updateFromHSL()">
+        </div>
+        <div>
+            <label for="l">L: <span id="l_val">50</span>%</label>
+            <input type="range" id="l" min="0" max="100" value="50" oninput="updateFromHSL()">
+        </div>
+    </div>
+
+    <!-- HSV Controls -->
+    <div id="hsv-controls" style="display:none;">
+        <div>
+            <label for="hv">H: <span id="hv_val">0</span>°</label>
+            <input type="range" id="hv" min="0" max="360" value="0" oninput="updateFromHSV()">
+        </div>
+        <div>
+            <label for="sv">S: <span id="sv_val">100</span>%</label>
+            <input type="range" id="sv" min="0" max="100" value="100" oninput="updateFromHSV()">
+        </div>
+        <div>
+            <label for="v">V: <span id="v_val">50</span>%</label>
+            <input type="range" id="v" min="0" max="100" value="50" oninput="updateFromHSV()">
+        </div>
+    </div>
+
+    <div>
+        <label>カラーコード: <input type="text" id="color_code" value="#FF9664" oninput="updateFromCode()"></label>
+    </div>
+    <div id="color_display" class="color-display" style="background-color: #FF9664;"></div>
+</div>
+
+    <script>
+        function hsv2rgb(h, s, v) {
+            h = (h < 0 ? h % 360 + 360 : h) % 360 / 60;
+            s = s < 0 ? 0 : s > 1 ? 1 : s;
+            v = v < 0 ? 0 : v > 1 ? 1 : v;
+            const c = [5, 3, 1].map(n => Math.round((v - Math.max(0, Math.min(1, 2 - Math.abs(2 - (h + n) % 6))) * s * v) * 255));
+            return {
+                hex: `#${(c[0] << 16 | c[1] << 8 | c[2]).toString(16).padStart(6, '0')}`,
+                rgb: c, r: c[0], g: c[1], b: c[2],
+            };
+        }
+
+        function rgb2hsv(r, g, b) {
+            let v = Math.max(r, g, b), d = v - Math.min(r, g, b),
+                s = v === 0 ? 0 : d / v,
+                h = s === 0 ? 0 :
+                    (v === r ? (g - b) / d + (g < b ? 6 : 0) :
+                    v === g ? (b - r) / d + 2 :
+                    (r - g) / d + 4);
+            h *= 60;
+            return { h: h, s: s, v: v / 255 };
+        }
+
+        function updateFromRGB() {
+            var r = parseInt(document.getElementById("r").value);
+            var g = parseInt(document.getElementById("g").value);
+            var b = parseInt(document.getElementById("b").value);
+            var hsv = rgb2hsv(r, g, b);
+            document.getElementById("hv").value = hsv.h;
+            document.getElementById("sv").value = hsv.s * 100;
+            document.getElementById("v").value = hsv.v * 100;
+            document.getElementById("color_display").style.backgroundColor = `rgb(${r},${g},${b})`;
+            document.getElementById("color_code").value = rgbToHex(r, g, b);
+            document.getElementById("r_val").innerText = r;
+            document.getElementById("g_val").innerText = g;
+            document.getElementById("b_val").innerText = b;
+            document.getElementById("hv_val").innerText = Math.round(hsv.h);
+            document.getElementById("sv_val").innerText = Math.round(hsv.s * 100);
+            document.getElementById("v_val").innerText = Math.round(hsv.v * 100);
+        }
+
+        function updateFromHSL() {
+            var h = parseInt(document.getElementById("h").value);
+            var s = parseInt(document.getElementById("s").value) / 100;
+            var l = parseInt(document.getElementById("l").value) / 100;
+            var rgb = hsl2rgb(h, s, l);
+            updateRGBControls(rgb.r, rgb.g, rgb.b);
+        }
+
+        function updateFromHSV() {
+            var h = parseInt(document.getElementById("hv").value);
+            var s = parseInt(document.getElementById("sv").value) / 100;
+            var v = parseInt(document.getElementById("v").value) / 100;
+            var rgb = hsv2rgb(h, s, v).rgb;
+            updateRGBControls(rgb[0], rgb[1], rgb[2]);
+        }
+
+        function updateRGBControls(r, g, b) {
+            document.getElementById("r").value = r;
+            document.getElementById("g").value = g;
+            document.getElementById("b").value = b;
+            document.getElementById("r_val").innerText = r;
+            document.getElementById("g_val").innerText = g;
+            document.getElementById("b_val").innerText = b;
+            var colorHex = rgbToHex(r, g, b);
+            document.getElementById("color_display").style.backgroundColor = colorHex;
+            document.getElementById("color_code").value = colorHex.toUpperCase();
+        }
+
+        function updateFromCode() {
+            var colorCode = document.getElementById("color_code").value;
+            var r = parseInt(colorCode.substr(1, 2), 16);
+            var g = parseInt(colorCode.substr(3, 2), 16);
+            var b = parseInt(colorCode.substr(5, 2), 16);
+            updateRGBControls(r, g, b);
+        }
+
+        function rgbToHex(r, g, b) {
+            return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+        }
+
+        function changeMode() {
+            var mode = document.getElementById("mode").value;
+            document.getElementById("rgb-controls").style.display = mode === "rgb" ? "block" : "none";
+            document.getElementById("hsl-controls").style.display = mode === "hsl" ? "block" : "none";
+            document.getElementById("hsv-controls").style.display = mode === "hsv" ? "block" : "none";
+            if (mode === "hsl") {
+                updateFromHSL();
+            } else if (mode === "hsv") {
+                updateFromHSV();
+            } else {
+                updateFromRGB();
+            }
+        }
+
+        // Additional helper functions for color conversions
+        function hsl2rgb(h, s, l) {
+            h /= 360;
+            let r, g, b;
+            if (s == 0) {
+                r = g = b = l; // achromatic
+            } else {
+                const hue2rgb = (p, q, t) => {
+                    if (t < 0) t += 1;
+                    if (t > 1) t -= 1;
+                    if (t < 1/6) return p + (q - p) * 6 * t;
+                    if (t < 1/2) return q;
+                    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                    return p;
+                };
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                const p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1/3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1/3);
+            }
+            return {r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255)};
+        }
+
+        function hsv2hsl(h, s, v) {
+            const l = (2 - s) * v / 2;
+            if (l != 0) {
+                if (l == 1) {
+                    s = 0;
+                } else if (l < 0.5) {
+                    s = s * v / (l * 2);
+                } else {
+                    s = s * v / (2 - l * 2);
+                }
+            }
+            return {h, s, l};
+        }
+
+        document.getElementById("mode").value = "rgb";
+        updateFromRGB();  // Initialize with RGB mode
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>OmotiGo - 1pxto4px</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <base href="/">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    
+</head>
+<body>
+    <nav class="navbar" id="nav">
+    </nav>
+<div class="content tbg">
+    <h2>1pxto4px</h2>
+    <input type="file" id="imageInput" accept="image/*">
+    <button onclick="enlargeImage()">画像拡大</button>
+    <h3>元の画像:</h3>
+    <img id="originalImage" src="" alt="アップロードされた画像">
+    <h3>拡大された画像:</h3>
+    <canvas id="enlargedImage"></canvas>
+    <button onclick="downloadImage()">画像ダウンロード</button>
+</div>
+    <script>
+document.getElementById('imageInput').addEventListener('change', function(event) {
+    var file = event.target.files[0];
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+            var canvas = document.getElementById('enlargedImage');
+            var ctx = canvas.getContext('2d');
+
+            // 画像サイズを2倍に設定
+            var width = img.width * 2;
+            var height = img.height * 2;
+            canvas.width = width;
+            canvas.height = height;
+
+            // 画像の各ピクセルを2x2ピクセルのブロックとして描画
+            ctx.imageSmoothingEnabled = false; // 画像のスムージングを無効にする
+            ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, width, height);
+        };
+        img.src = e.target.result;
+        document.getElementById('originalImage').src = img.src;
+    };
+    reader.readAsDataURL(file);
+});
+
+
+function downloadImage() {
+    var canvas = document.getElementById('enlargedImage');
+    var link = document.createElement('a');
+    link.download = 'enlarged_image.png';
+    link.href = canvas.toDataURL();
+    link.click();
+}
+
+
+    </script>
+</body>
+</html>

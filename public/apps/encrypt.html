@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <title>OmotiGo - URLEncrypt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav class="navbar" id="nav"></nav>
+    <div class="content tbg">
+        <h2>URLEncrypt</h2>
+        <input type="text" id="inputField" placeholder="Enter URL or Text Here">
+        <select id="typeSelector">
+            <option value="url">URL</option>
+        </select>
+        <button id="shortenButton">Shorten</button>
+        <p>結果: <a id="resultLink" target="_blank"><span id="result"></span></a></p>
+    </div>
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function () {
+        const params = new URLSearchParams(window.location.search);
+        
+        const encodedUrl = params.get('u');
+        const encodedText = params.get('t');
+
+            // URLデコードしてリダイレクト
+            if (encodedUrl) {
+                const decodedUrl = decodeURIComponent(atob(encodedUrl));
+                window.location.href = decodedUrl;
+            }
+
+            fetch('https://omotigo.com/nav.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('nav').innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('ナビゲーションバーの読み込みに失敗しました:', error);
+                });
+    
+            // ボタンのイベントリスナーを設定
+            document.getElementById('shortenButton').addEventListener('click', function() {
+                const input = document.getElementById('inputField').value;
+                const type = document.getElementById('typeSelector').value;
+                let result = '';
+                let fullUrl = '';
+    
+                if (type === 'url') {
+                    result = btoa(encodeURIComponent(input));
+                    result = `?u=${result}`;
+                    fullUrl = window.location.href.split('?')[0] + result;
+                } else if (type === 'text') {
+                    result = btoa(encodeURIComponent(input));
+                    result = `?t=${result}`;
+                    fullUrl = window.location.href.split('?')[0] + result;
+                }
+    
+                document.getElementById('result').textContent = fullUrl;
+                document.getElementById('resultLink').href = fullUrl; // Set href attribute for the link
+            });
+        });
+        </script>
+    <script src="script.js" defer></script>
+</body>
+</html>
+
