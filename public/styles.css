@@ -11,10 +11,8 @@ body {
     transition: background 0.5s ease-in-out;
 }
 
-/* メインコンテンツの幅調整 */
 .wbg, .tbg {
-    width: 90%;
-    max-width: 1000px;
+    width: 1000px;
     margin-top: 40px;
     background: #FFFFFF;
     border-radius: 20px;
@@ -30,7 +28,6 @@ body {
     transform: translateY(-8px);
 }
 
-/* コンテナの調整 */
 .container {
     display: flex;
     justify-content: space-between;
@@ -42,7 +39,38 @@ body {
     box-sizing: border-box;
 }
 
-/* スマホ対応ナビゲーション */
+.notice-block {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.notice-block:hover {
+    transform: scale(1.02);
+}
+
+button {
+    background: linear-gradient(45deg, #007BFF, #0056b3);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+    background: linear-gradient(45deg, #0056b3, #004096);
+    transform: scale(1.07);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+/* ナビゲーションバー */
 .navbar {
     width: 100%;
     background: #FFFFFF;
@@ -58,7 +86,12 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
-/* ナビゲーションリンクの調整 */
+/* ナビゲーションリンク */
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
 .nav-links a {
     text-decoration: none;
     color: #007BFF;
@@ -90,16 +123,16 @@ body {
 @media screen and (max-width: 1000px) {
     .container {
         flex-direction: column;
-        padding: 20px;
+        padding: 15px;
+        align-items: center;
     }
 
     .wbg, .tbg {
         width: 95%;
-        padding: 20px;
+        padding: 25px;
     }
 
     .nav-links {
-        display: flex;
         flex-direction: column;
         align-items: center;
         gap: 10px;
@@ -107,7 +140,7 @@ body {
 
     .nav-links a {
         font-size: 14px;
-        padding: 8px 15px;
+        padding: 10px;
     }
 
     button {
